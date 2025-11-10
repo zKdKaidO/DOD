@@ -125,7 +125,7 @@ auto_augment: randaugment # (str) classification auto augmentation policy: randa
 erasing: 0.4 # (float) random erasing probability for classification (0–0.9), <1.0
 
 # Custom config.yaml ---------------------------------------------------------------------------------------------------
-cfg: config.yaml # (str, optional) path to a config.yaml that overrides defaults
+cfg: # (str, optional) path to a config.yaml that overrides defaults
 
 # Tracker settings ------------------------------------------------------------------------------------------------------
 tracker: botsort.yaml # (str) tracker config file: botsort.yaml or bytetrack.yaml

@@ -6,7 +6,8 @@ model = YOLO("yolov8n.pt")
 # Train the model on the COCO8 dataset for 100 epochs
 train_results = model.train(
     cfg = "config.yaml",  # Path to model configuration file
-    data="coco8.yaml",  # Path to dataset configuration file
+    data="coco8.yaml", # Path to dataset configuration file
+    pretrained = "yolov8n-p2.pt",  # Use pretrained weights
 )
 
 # Evaluate the model's performance on the validation set
