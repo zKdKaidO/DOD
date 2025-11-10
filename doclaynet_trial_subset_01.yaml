@@ -1,0 +1,19 @@
+# DocLayNet subset (trial_subset_01) dataset config
+path: N:\DOD\subsets\trial_subset_01
+
+train: images/train
+val: images/val
+
+# 11 DocLayNet detection classes
+names:
+  0: Caption
+  1: Footnote
+  2: Formula
+  3: List-item
+  4: Page-footer
+  5: Page-header
+  6: Picture
+  7: Section-header
+  8: Table
+  9: Text
+  10: Title
