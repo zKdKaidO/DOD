@@ -4,35 +4,39 @@
 # For documentation see https://docs.ultralytics.com/usage/cfg/
 
 # Basic settings ------------------------------------------------------------------------------------------------------
+model: yolov8n-p2.pt # (str, optional) path to model file, i.e. yolov8n.pt or yolov8n.yaml
+data: doclaynet_trial_subset_01.yaml # (str, optional) path to data file, i.e. coco8.yaml
 task: detect # (str) YOLO task, i.e. detect, segment, classify, pose, obb
 mode: train # (str) YOLO mode, i.e. train, val, predict, export, track, benchmark
 
-# Train settings -------------------------------------------------------------------------------------------------------
-model: yolov8n.pt # (str, optional) path to model file, i.e. yolov8n.pt or yolov8n.yaml
-data: # (str, optional) path to data file, i.e. coco8.yaml
+# Result folder settings  -----------------------------------------------------------------------------------------------
+project: subset_01 # (str, optional)
+name: train # (str, optional) result for each run will be saved in subset_01/train
+exist_ok: False # False: for each run created new folder subset01/train*, True: overwrite existing folder
+
+# Device settings -----------------------------------------------------------------------------------------------------
+cache: disk # (bool | str) cache images in RAM (True/'ram') or on 'disk' to speed dataloading; False disables
+device: mps # (cpu, CUDA, mps) for MAC: use mps
+workers: 6 # (int) dataloader workers (per RANK if DDP)
+
+# Train settings ------------------------------------------------------------------------------------------------------
 epochs: 100 # (int) number of epochs to train for
 time: # (float, optional) max hours to train; overrides epochs if set
 patience: 100 # (int) early stop after N epochs without val improvement
 batch: 16 # (int) batch size; use -1 for AutoBatch
-imgsz: 640 # (int | list) train/val use int (square); predict/export may use [h,w]
+imgsz: 640 # (int | list) larger image sizes for tiny elements in images
 save: True # (bool) save train checkpoints and predict results
 save_period: -1 # (int) save checkpoint every N epochs; disabled if < 1
-cache: False # (bool | str) cache images in RAM (True/'ram') or on 'disk' to speed dataloading; False disables
-device: # (int | str | list) device: 0 or [0,1,2,3] for CUDA, 'cpu'/'mps', or -1/[-1,-1] to auto-select idle GPUs
-workers: 8 # (int) dataloader workers (per RANK if DDP)
-project: # (str, optional) project name for results root
-name: # (str, optional) experiment name; results in 'project/name'
-exist_ok: False # (bool) overwrite existing 'project/name' if True
-pretrained: True # (bool | str) use pretrained weights (bool) or load weights from path (str)
-optimizer: auto # (str) optimizer: SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, or auto
+pretrained: yolov8n.pt # (bool | str) use pretrained weights (bool) or load weights from path (str)
+optimizer: AdamW # (str) optimizer: SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, or auto
 verbose: True # (bool) print verbose logs during training/val
-seed: 0 # (int) random seed for reproducibility
+seed: 0 # (int) change seed only to make sure the final model setup is not seed-specific
 deterministic: True # (bool) enable deterministic ops; reproducible but may be slower
 single_cls: False # (bool) treat all classes as a single class
-rect: False # (bool) rectangular batches for train; rectangular batching for val when mode='val'
+rect: True # (bool) rectangular batches for train; rectangular batching for val when mode='val'
 cos_lr: False # (bool) cosine learning rate scheduler
 close_mosaic: 10 # (int) disable mosaic augmentation for final N epochs (0 to keep enabled)
-resume: True # (bool) resume training from last checkpoint in the run dir
+resume: False # (bool) resume training from last checkpoint in the run dir
 amp: True # (bool) Automatic Mixed Precision (AMP) training; True runs AMP capability check
 fraction: 1.0 # (float) fraction of training dataset to use (1.0 = all)
 profile: False # (bool) profile ONNX/TensorRT speeds during training for loggers
@@ -92,10 +96,10 @@ workspace: # (float, optional) engine (TensorRT) only; workspace size in GiB, e.
 nms: False # (bool) fuse NMS into exported model when backend supports; if True, conf/iou apply (agnostic_nms except coreml)
 
 # Hyperparameters ------------------------------------------------------------------------------------------------------
-lr0: 0.01 # (float) initial learning rate (SGD=1e-2, Adam/AdamW=1e-3)
-lrf: 0.01 # (float) final LR fraction; final LR = lr0 * lrf
+lr0: 0.001 # (float) initial learning rate (SGD=1e-2, Adam/AdamW=1e-3)
+lrf: 0.2 # (float) final LR fraction; final LR = lr0 * lrf
 momentum: 0.937 # (float) SGD momentum or Adam beta1
-weight_decay: 0.0005 # (float) weight decay (L2 regularization)
+weight_decay: 0.01 # (float) weight decay (L2 regularization)
 warmup_epochs: 3.0 # (float) warmup epochs (fractions allowed)
 warmup_momentum: 0.8 # (float) initial momentum during warmup
 warmup_bias_lr: 0.1 # (float) bias learning rate during warmup

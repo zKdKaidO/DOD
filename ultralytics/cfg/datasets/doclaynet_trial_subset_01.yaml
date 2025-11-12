@@ -1,5 +1,5 @@
 # DocLayNet subset (trial_subset_01) dataset config
-path: N:\DOD\subsets\trial_subset_01
+path: "/Users/thuytruc/Downloads/AI/Computer Vision/Object Detection/subsets/trial_subset_01"
 
 train: images/train
 val: images/val
